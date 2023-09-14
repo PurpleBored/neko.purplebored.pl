@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neko Images</title>
+    <link rel="stylesheet" href="https://envs.net/css/css_style.css">
+    <!-- Set the background color, font, and spacing of the body -->
+    <style>
+      body {
+        background-color: #1d1d1d;
+        color: #f1f1f1;
+        font-family: 'Fira Code', monospace;
+        font-size: 18px;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+      /* Center the container on the page */
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      /* Style the header text */
+      h1 {
+        color: #f1f1f1;
+        font-weight: bold;
+        line-height: 1.2;
+        margin-top: 0;
+      }
+      /* Style the neko image */
+      img {
+        max-width: 100%;
+        max-height: 500px;
+        margin-bottom: 1rem;
+        display: none; /* Hide the image initially */
+      }
+      /* Style the "Show another Neko image" button */
+      button.show-another {
+        display: none; /* Hide the button initially */
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        background-color: #2e7bff;
+        color: #f1f1f1;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+      }
+      /* Set the button background color on hover */
+      button.show-another:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Add the heading text -->
+      <h1>Neko Images</h1>
+      <!-- Add the neko image with an initial blank source -->
+      <img src="" alt="Neko image">
+      <!-- Add the "Show another Neko image" button -->
+      <button class="show-another" onclick="showNeko()">Show another Neko image</button>
+    </div>
+    <script>
+      window.onload = function() { // Execute this code after the page loads
+        var nekoImg = document.querySelector('img'); // Find the neko image
+        var showAnother = document.querySelector('.show-another'); // Find the "Show another Neko image" button
+        var xhr = new XMLHttpRequest(); // Create a new XMLHttpRequest object
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) { // If the response has loaded successfully
+            nekoImg.style.display = 'block'; // Show the neko image
+            showAnother.style.display = 'block'; // Show the "Show another Neko image" button
+            var jsonResponse = JSON.parse(xhr.responseText); // Parse the JSON response
+            nekoImg.src = jsonResponse.url; // Set the neko image source to the URL from the JSON response
+          }
+        }
+        xhr.open('GET', 'https://nekos.life/api/v2/img/neko'); // Send a GET request to the nekos.life API
+        xhr.send(); // Send the request
+      }
+      function showNeko() {
+        var nekoImg = document.querySelector('img'); // Find the neko image
+        var xhr = new XMLHttpRequest(); // Create a new XMLHttpRequest object
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) { // If the response has loaded successfully
+            var jsonResponse = JSON.parse(xhr.responseText); // Parse the JSON response
+            nekoImg.src = jsonResponse.url; // Set the neko image source to the URL from the JSON response
+          }
+        }
+        xhr.open('GET', 'https://nekos.life/api/v2/img/neko'); // Send a GET request to the nekos.life API
+        xhr.send(); // Send the request
+      }
+    </script>
+    </body>
+</html>
